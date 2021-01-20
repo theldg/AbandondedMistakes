@@ -1,0 +1,15 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: user-center
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/user_center?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: "#INCLUDE12345"
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
