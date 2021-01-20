@@ -38,7 +38,7 @@
   "miniprogramRoot": "dist/wx/",
   "compileType": "miniprogram",
   "appid": "wx03922d8f0a87ef5a",
-  "projectname": "WX_Small_Program",
+  "projectname": "Thor",
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
   "condition": {
