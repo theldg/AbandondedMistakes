@@ -1,22 +1,19 @@
+server:
+  port: 9090
 spring:
-  application:
-    name: user-center
   profiles:
     active: dev
 ---
-server:
-  port: 8080
 spring:
   profiles: dev
   datasource:
     #>=6.x com.mysql.cj.jdbc.Driver
     #<=5.x com.mysql.jdbc.Driver
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/user_center?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/content_center?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
-    #å¯†ç éœ€è¦ç”¨åŒå¼•å·
+    #ÃÜÂëÐèÒªÓÃË«ÒýºÅ
     password: "#INCLUDE12345"
-
 ---
 spring:
   profiles: prod

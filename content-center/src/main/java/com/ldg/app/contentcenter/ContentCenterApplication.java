@@ -1,17 +1,15 @@
-package com.ldg.app.usercenter;
+package com.ldg.app.contentcenter;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-
+@MapperScan("com.ldg.app.contentcenter.mapper")
 @SpringBootApplication
-/**扫描相关接口**/
-@MapperScan("com.ldg.app.usercenter.mapper")
-public class UserCenterApplication {
+public class ContentCenterApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(UserCenterApplication.class, args);
+        SpringApplication.run(ContentCenterApplication.class, args);
     }
 
 }
