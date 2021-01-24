@@ -1,14 +1,23 @@
 package com.ldg.app.usercenter.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Date;
 import java.io.Serializable;
 
 /**
  * 积分变更记录表(BonusEventLog)实体类
  *
- * @author makejava
+ * @author ldg
  * @since 2021-01-20 16:51:03
  */
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class BonusEventLog implements Serializable {
     private static final long serialVersionUID = -30641638310808520L;
     /**
@@ -37,52 +46,5 @@ public class BonusEventLog implements Serializable {
     private String description;
 
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Integer getValue() {
-        return value;
-    }
-
-    public void setValue(Integer value) {
-        this.value = value;
-    }
-
-    public String getEvent() {
-        return event;
-    }
-
-    public void setEvent(String event) {
-        this.event = event;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
 }

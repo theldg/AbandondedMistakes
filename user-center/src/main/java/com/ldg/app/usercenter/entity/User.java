@@ -1,14 +1,23 @@
 package com.ldg.app.usercenter.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Date;
 import java.io.Serializable;
 
 /**
  * 分享(User)实体类
  *
- * @author makejava
+ * @author ldg
  * @since 2021-01-20 16:50:16
  */
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class User implements Serializable {
     private static final long serialVersionUID = 173368559468297875L;
     /**
@@ -45,68 +54,5 @@ public class User implements Serializable {
     private Integer bonus;
 
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getWxId() {
-        return wxId;
-    }
-
-    public void setWxId(String wxId) {
-        this.wxId = wxId;
-    }
-
-    public String getWxNickname() {
-        return wxNickname;
-    }
-
-    public void setWxNickname(String wxNickname) {
-        this.wxNickname = wxNickname;
-    }
-
-    public String getRoles() {
-        return roles;
-    }
-
-    public void setRoles(String roles) {
-        this.roles = roles;
-    }
-
-    public String getAvatarUrl() {
-        return avatarUrl;
-    }
-
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Integer getBonus() {
-        return bonus;
-    }
-
-    public void setBonus(Integer bonus) {
-        this.bonus = bonus;
-    }
 
 }
