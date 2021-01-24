@@ -75,6 +75,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!--统一资源依赖-->
         <dependency>
             <groupId>com.ldg.app</groupId>
             <artifactId>global-common</artifactId>

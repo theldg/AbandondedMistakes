@@ -1,9 +1,6 @@
 package com.ldg.app.contentcenter.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 import java.io.Serializable;

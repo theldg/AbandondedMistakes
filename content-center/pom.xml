@@ -44,6 +44,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+        <!--统一资源依赖-->
+        <dependency>
+            <groupId>com.ldg.app</groupId>
+            <artifactId>global-common</artifactId>
+            <version>0.0.2-SNAPSHOT</version>
+        </dependency>
         <!--test-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

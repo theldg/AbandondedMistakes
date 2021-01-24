@@ -1,6 +1,8 @@
 package com.ldg.app.contentcenter.service;
 
+import com.ldg.app.contentcenter.dto.ShareDto;
 import com.ldg.app.contentcenter.entity.Share;
+
 import java.util.List;
 
 /**
@@ -20,10 +22,18 @@ public interface ShareService {
     Share queryById(Integer id);
 
     /**
+     * 通过ID查询sharedto
+     *
+     * @param id 主键
+     * @return
+     */
+    ShareDto queryDtoById(Integer id);
+
+    /**
      * 查询多条数据
      *
      * @param offset 查询起始位置
-     * @param limit 查询条数
+     * @param limit  查询条数
      * @return 对象列表
      */
     List<Share> queryAllByLimit(int offset, int limit);
