@@ -3,6 +3,7 @@ package com.ldg.app.usercenter.controller;
 import com.ldg.app.usercenter.entity.User;
 import com.ldg.app.usercenter.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.NullValueInNestedPathException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author makejava
  * @since 2021-01-20 16:50:19
  */
+@Slf4j
 @RestController
 @RequestMapping("users")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -34,6 +36,7 @@ public class UserController {
     @GetMapping("{id}")
     public User selectOne(@PathVariable Integer id) {
 
+        log.info("我被请求了");
         User user = this.userService.queryById(id);
         if (user == null) {
             throw new NullValueInNestedPathException(User.class, "User为空");

@@ -5,7 +5,7 @@ spring:
     active: dev
 ---
 server:
-  port: 8080
+  port: 8082
 spring:
   profiles: dev
   datasource:
@@ -16,6 +16,15 @@ spring:
     username: root
     #密码需要用双引号
     password: "#INCLUDE12345"
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        namespace: 5d1d5b0f-d00a-43f4-8706-901c97ee698f
+        #集群划分
+        cluster-name: BJ
+
+
 
 ---
 spring:

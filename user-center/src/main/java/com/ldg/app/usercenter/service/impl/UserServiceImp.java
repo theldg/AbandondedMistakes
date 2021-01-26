@@ -1,4 +1,4 @@
-package com.ldg.app.usercenter.service.imp;
+package com.ldg.app.usercenter.service.impl;
 
 import com.ldg.app.usercenter.entity.User;
 import com.ldg.app.usercenter.mapper.UserMapper;
