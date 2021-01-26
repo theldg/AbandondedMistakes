@@ -3,6 +3,8 @@ server:
 spring:
   profiles:
     active: dev
+  application:
+    name: content-center
 ---
 spring:
   profiles: dev
@@ -12,8 +14,30 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/content_center?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
-    #������Ҫ��˫����
+    #密码需要使用双引号
     password: "#INCLUDE12345"
+  cloud:
+    nacos:
+      discovery:
+        #指定nacos server的地址
+        server-addr: localhost:8848
+        namespace: 5d1d5b0f-d00a-43f4-8706-901c97ee698f
+        #集群划分
+        cluster-name: NJ
+        #元数据
+        metadata:
+          version: v1
+          targetVersion: v2
+
+
+#为user-center配置ribbon负载均衡规则
+#user-center:
+#   ribbon:
+#     NFLoadBalancerRulerClassName: com.ldg.app.contentcenter.configuration.NacosWeightedRule
+ribbon:
+  eager-load:
+    clients: user-center
+    enabled: true
 ---
 spring:
   profiles: prod
