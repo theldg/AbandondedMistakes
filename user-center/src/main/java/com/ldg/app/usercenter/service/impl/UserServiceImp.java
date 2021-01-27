@@ -1,6 +1,6 @@
 package com.ldg.app.usercenter.service.impl;
 
-import com.ldg.app.usercenter.entity.User;
+import com.ldg.app.entity.User;
 import com.ldg.app.usercenter.mapper.UserMapper;
 import com.ldg.app.usercenter.service.UserService;
 import lombok.RequiredArgsConstructor;

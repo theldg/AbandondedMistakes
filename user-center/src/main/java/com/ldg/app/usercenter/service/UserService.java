@@ -1,6 +1,7 @@
 package com.ldg.app.usercenter.service;
 
-import com.ldg.app.usercenter.entity.User;
+import com.ldg.app.entity.User;
+
 import java.util.List;
 
 /**

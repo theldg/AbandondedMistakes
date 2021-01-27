@@ -1,6 +1,7 @@
 package com.ldg.app.usercenter.service;
 
-import com.ldg.app.usercenter.entity.BonusEventLog;
+import com.ldg.app.entity.BonusEventLog;
+
 import java.util.List;
 
 /**

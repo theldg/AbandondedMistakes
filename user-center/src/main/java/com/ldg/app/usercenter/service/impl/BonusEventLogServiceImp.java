@@ -1,6 +1,6 @@
 package com.ldg.app.usercenter.service.impl;
 
-import com.ldg.app.usercenter.entity.BonusEventLog;
+import com.ldg.app.entity.BonusEventLog;
 import com.ldg.app.usercenter.mapper.BonusMapper;
 import com.ldg.app.usercenter.service.BonusEventLogService;
 import lombok.RequiredArgsConstructor;

@@ -1,8 +1,10 @@
 package com.ldg.app.usercenter.controller;
 
-import com.ldg.app.usercenter.entity.BonusEventLog;
+import com.ldg.app.entity.BonusEventLog;
 import com.ldg.app.usercenter.service.BonusEventLogService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
