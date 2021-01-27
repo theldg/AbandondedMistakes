@@ -1,10 +1,12 @@
 package com.ldg.app.contentcenter.service.impl;
 
 import com.ldg.app.contentcenter.dto.ShareDto;
-import com.ldg.app.contentcenter.entity.Share;
-import com.ldg.app.contentcenter.entity.User;
+import com.ldg.app.entity.Share;
+import com.ldg.app.entity.User;
+import com.ldg.app.contentcenter.feignclient.UserCenterFeignClient;
 import com.ldg.app.contentcenter.mapper.ShareMapper;
 import com.ldg.app.contentcenter.service.ShareService;
+import com.ldg.app.entity.Share;
 import com.ldg.app.json.JsonAndEntity;
 import com.ldg.app.response.ReslutDto;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -28,9 +31,9 @@ public class ShareServiceImpl implements ShareService {
 
     private final ShareMapper shareMapper;
 
-    private final RestTemplate restTemplate;
+    private final UserCenterFeignClient feignClient;
 
-    private final DiscoveryClient discoveryClient;
+
 
     @Override
     public Share queryById(Integer id) {
@@ -60,10 +63,12 @@ public class ShareServiceImpl implements ShareService {
 //        log.info("Rest请求路径:{}",urlList.get(random));
         //2.Resttemplate
         //Ribben实现负载均衡
-        String url = "http://user-center/users/{userId}";
-        ResponseEntity<ReslutDto> forEntity = restTemplate.getForEntity(url, ReslutDto.class, userId);
-        //消息的装配
-        ReslutDto reslutDto = forEntity.getBody();
+//        String url = "http://user-center/users/{userId}";
+//        ResponseEntity<ReslutDto> forEntity = restTemplate.getForEntity(url, ReslutDto.class, userId);
+//        //消息的装配
+//        ReslutDto reslutDto = forEntity.getBody();
+        //使用Feign
+        ReslutDto reslutDto = feignClient.findById(userId);
         //将Map对象转化实体对象User
         User user = JsonAndEntity.toEnity(reslutDto.getData(), User.class);
         ShareDto shareDto = new ShareDto();

@@ -1,4 +1,4 @@
-package com.ldg.app.contentcenter.configuration;
+package com.ldg.app.contentcenter.configuration.ribbon;
 
 import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.cloud.netflix.ribbon.RibbonClients;

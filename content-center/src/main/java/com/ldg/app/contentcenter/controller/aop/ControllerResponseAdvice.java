@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
  * @author ldg
  * 统一的响应处理
  */
-@RestControllerAdvice(basePackages = {"com.ldg.app.usercenter.controller"})
+@RestControllerAdvice(basePackages = {"com.ldg.app.contentcenter.controller"})
 public class ControllerResponseAdvice implements ResponseBodyAdvice<Object> {
     @Override
     public boolean supports(MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> aClass) {

@@ -1,7 +1,7 @@
 package com.ldg.app.contentcenter.service;
 
 import com.ldg.app.contentcenter.dto.ShareDto;
-import com.ldg.app.contentcenter.entity.Share;
+import com.ldg.app.entity.Share;
 
 import java.util.List;
 

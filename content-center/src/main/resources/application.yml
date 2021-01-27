@@ -23,7 +23,7 @@ spring:
         server-addr: localhost:8848
         namespace: 5d1d5b0f-d00a-43f4-8706-901c97ee698f
         #集群划分
-        cluster-name: NJ
+        cluster-name: BJ
         #元数据
         metadata:
           version: v1
@@ -33,11 +33,24 @@ spring:
 #为user-center配置ribbon负载均衡规则
 #user-center:
 #   ribbon:
-#     NFLoadBalancerRulerClassName: com.ldg.app.contentcenter.configuration.NacosWeightedRule
+#     NFLoadBalancerRulerClassName: com.ldg.app.contentcenter.configuration.ribbon.NacosWeightedRule
 ribbon:
   eager-load:
     clients: user-center
     enabled: true
+
+logging:
+  level:
+    #Feign的日志打印是要建立在FeignClient接口的日志级别为debug基础上
+    com.ldg.app.contentcenter.feignclient.UserCenterFeignClient: debug
+#feign:
+#  client:
+#    config:
+#      #想要调用的微服务名称
+#      user-center:
+#         loggerLevel: BASIC
+
+
 ---
 spring:
   profiles: prod

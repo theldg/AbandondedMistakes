@@ -1,4 +1,4 @@
-package com.ldg.app.contentcenter.configuration;
+package com.ldg.app.contentcenter.configuration.ribbon;
 
 import com.alibaba.cloud.nacos.NacosDiscoveryProperties;
 import com.alibaba.cloud.nacos.ribbon.NacosServer;

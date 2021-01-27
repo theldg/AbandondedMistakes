@@ -1,4 +1,4 @@
-package com.ldg.app.contentcenter.configuration;
+package com.ldg.app.contentcenter.configuration.ribbon;
 
 import com.alibaba.nacos.api.naming.pojo.Instance;
 import com.alibaba.nacos.client.naming.core.Balancer;

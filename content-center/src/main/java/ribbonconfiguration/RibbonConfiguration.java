@@ -1,9 +1,7 @@
 package ribbonconfiguration;
 
-import com.ldg.app.contentcenter.configuration.NacosSameClusterWeightedRule;
-import com.ldg.app.contentcenter.configuration.NacosWeightedRule;
+import com.ldg.app.contentcenter.configuration.ribbon.NacosSameClusterWeightedRule;
 import com.netflix.loadbalancer.IRule;
-import com.netflix.loadbalancer.RandomRule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,6 +17,4 @@ public class RibbonConfiguration {
     public IRule ribbonRule() {
         return new NacosSameClusterWeightedRule();
     }
-
-
 }

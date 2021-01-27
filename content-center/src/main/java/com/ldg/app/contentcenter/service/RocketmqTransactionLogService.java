@@ -1,6 +1,7 @@
 package com.ldg.app.contentcenter.service;
 
-import com.ldg.app.contentcenter.entity.RocketmqTransactionLog;
+import com.ldg.app.entity.RocketmqTransactionLog;
+
 import java.util.List;
 
 /**

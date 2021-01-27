@@ -1,6 +1,7 @@
 package com.ldg.app.contentcenter.service;
 
-import com.ldg.app.contentcenter.entity.Notice;
+import com.ldg.app.entity.Notice;
+
 import java.util.List;
 
 /**
