@@ -1,5 +1,16 @@
+com\ldg\app\entity\Notice.class
+com\ldg\app\entity\RocketmqTransactionLog$RocketmqTransactionLogBuilder.class
+com\ldg\app\entity\RocketmqTransactionLog.class
 com\ldg\app\statusCode\ExceptionCode.class
+com\ldg\app\entity\Notice$NoticeBuilder.class
+com\ldg\app\json\JsonAndEntity.class
+com\ldg\app\entity\Share.class
+com\ldg\app\entity\User$UserBuilder.class
+com\ldg\app\entity\User.class
+com\ldg\app\App.class
 com\ldg\app\response\ReslutDto$ReslutDtoBuilder.class
 com\ldg\app\statusCode\ReslutCode.class
+com\ldg\app\entity\BonusEventLog$BonusEventLogBuilder.class
 com\ldg\app\response\ReslutDto.class
-com\ldg\app\App.class
+com\ldg\app\entity\BonusEventLog.class
+com\ldg\app\entity\Share$ShareBuilder.class

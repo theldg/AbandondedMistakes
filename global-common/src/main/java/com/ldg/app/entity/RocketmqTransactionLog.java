@@ -1,4 +1,4 @@
-package com.ldg.app.contentcenter.entity;
+package com.ldg.app.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

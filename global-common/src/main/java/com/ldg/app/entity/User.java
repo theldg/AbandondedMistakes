@@ -1,12 +1,12 @@
-package com.ldg.app.usercenter.entity;
+package com.ldg.app.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 分享(User)实体类
