@@ -1,6 +1,8 @@
 package com.ldg.app.contentcenter.service;
 
-import com.ldg.app.contentcenter.dto.ShareDto;
+
+import com.ldg.app.dto.ShareAuditDto;
+import com.ldg.app.dto.ShareDto;
 import com.ldg.app.entity.Share;
 
 import java.util.List;
@@ -62,4 +64,12 @@ public interface ShareService {
      */
     boolean deleteById(Integer id);
 
+    /**
+     * 审核资源
+     *
+     * @param id       主键
+     * @param auditDto 审核信息
+     * @return
+     */
+    Share auditById(Integer id, ShareAuditDto auditDto);
 }

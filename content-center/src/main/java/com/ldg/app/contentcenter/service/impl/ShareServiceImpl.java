@@ -1,16 +1,25 @@
 package com.ldg.app.contentcenter.service.impl;
 
-import com.ldg.app.contentcenter.dto.ShareDto;
+
+import com.ldg.app.dto.ShareAuditDto;
+import com.ldg.app.dto.ShareDto;
+import com.ldg.app.dto.UserAddBonusMsgDto;
 import com.ldg.app.entity.Share;
 import com.ldg.app.entity.User;
 import com.ldg.app.contentcenter.feignclient.UserCenterFeignClient;
 import com.ldg.app.contentcenter.mapper.ShareMapper;
 import com.ldg.app.contentcenter.service.ShareService;
 import com.ldg.app.entity.Share;
+import com.ldg.app.enums.AuditStatusEnum;
+import com.ldg.app.enums.ReslutCode;
 import com.ldg.app.json.JsonAndEntity;
 import com.ldg.app.response.ReslutDto;
+import io.netty.util.internal.ObjectUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.NullArgumentException;
+import org.apache.commons.lang.ObjectUtils;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -19,7 +28,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author ldg
@@ -30,9 +41,8 @@ import java.util.List;
 public class ShareServiceImpl implements ShareService {
 
     private final ShareMapper shareMapper;
-
     private final UserCenterFeignClient feignClient;
-
+    private final RocketMQTemplate rocketMQTemplate;
 
 
     @Override
@@ -44,6 +54,9 @@ public class ShareServiceImpl implements ShareService {
     @Override
     public ShareDto queryDtoById(Integer id) {
         Share share = shareMapper.selectById(id);
+        if (Objects.isNull(share)) {
+            throw new NullArgumentException("share");
+        }
         Integer userId = share.getUserId();
         //怎么通过userId获取用户名称
         //调用用户微服务/users/{userid}
@@ -69,12 +82,16 @@ public class ShareServiceImpl implements ShareService {
 //        ReslutDto reslutDto = forEntity.getBody();
         //使用Feign
         ReslutDto reslutDto = feignClient.findById(userId);
-        //将Map对象转化实体对象User
-        User user = JsonAndEntity.toEnity(reslutDto.getData(), User.class);
-        ShareDto shareDto = new ShareDto();
-        BeanUtils.copyProperties(share, shareDto);
-        shareDto.setWxNickname(user.getWxNickname());
-        return shareDto;
+        //判断响应是否成功
+        if (ObjectUtils.equals(reslutDto.getCode(), ReslutCode.Ok.getCode())) {
+            //将Map对象转化实体对象User
+            User user = JsonAndEntity.toEnity(reslutDto.getData(), User.class);
+            ShareDto shareDto = new ShareDto();
+            BeanUtils.copyProperties(share, shareDto);
+            shareDto.setWxNickname(user.getWxNickname());
+            return shareDto;
+        }
+        throw new NullArgumentException("user");
     }
 
 
@@ -96,5 +113,33 @@ public class ShareServiceImpl implements ShareService {
     @Override
     public boolean deleteById(Integer id) {
         return false;
+    }
+
+    @Override
+    public Share auditById(Integer id, ShareAuditDto auditDto) {
+        //1.查询share是否存在,不存在或者当前的audit_status!=NotYet,那么抛异常
+        //2.审核资源,将状态设为Pass/Reject
+        //3.如果是Pass,那么为发布人添加积分
+        Share share = shareMapper.selectById(id);
+        if (Objects.isNull(share)) {
+            throw new IllegalArgumentException("参数非法");
+        }
+
+        //枚举类型要使用toString()
+        if (!ObjectUtils.equals(share.getAuditStatus(), AuditStatusEnum.NotYet.toString())) {
+            throw new IllegalArgumentException("资源已审核");
+        }
+        share.setAuditStatus(auditDto.getAuditStatusEnum().toString());
+        shareMapper.updateById(share);
+        //如果为Pass,异步执行增加积分
+        if (ObjectUtils.equals(share.getAuditStatus(), AuditStatusEnum.Pass.toString())) {
+            log.info("Status:{}", share.getAuditStatus());
+            rocketMQTemplate.convertAndSend("add-bonus", UserAddBonusMsgDto.builder()
+                    .userId(share.getUserId())
+                    .bonus(50)
+                    .build());
+        }
+        return share;
+
     }
 }

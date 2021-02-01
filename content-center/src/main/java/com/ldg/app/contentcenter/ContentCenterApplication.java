@@ -14,14 +14,14 @@ import org.springframework.web.client.RestTemplate;
  */
 @MapperScan("com.ldg.app.contentcenter.mapper")
 @SpringBootApplication
-@EnableFeignClients(defaultConfiguration = UserCenterFeignConfiguration.class)//Fegin的全局配置
+//启动feign
+@EnableFeignClients
 public class ContentCenterApplication {
     public static void main(String[] args) {
         SpringApplication.run(ContentCenterApplication.class, args);
     }
 
     @Bean
-    @LoadBalanced
     /**RestTemplate整合Ribben**/
     public RestTemplate restTemplate() {
         return new RestTemplate();

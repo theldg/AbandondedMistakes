@@ -1,18 +1,22 @@
 package com.ldg.app.contentcenter.controller;
 
+
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
 /**
  * @author ldg
  */
+@Slf4j
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @RequestMapping("test")
@@ -20,6 +24,7 @@ public class TestController {
 
 
     private final DiscoveryClient discoveryClient;
+    private final RestTemplate restTemplate;
 
     @GetMapping("nacos")
     public List<ServiceInstance> getInstance() {
@@ -32,4 +37,12 @@ public class TestController {
 
         return discoveryClient.getServices();
     }
+
+
+    @GetMapping("string")
+    public String getString() {
+        return "Test";
+    }
+
+
 }
