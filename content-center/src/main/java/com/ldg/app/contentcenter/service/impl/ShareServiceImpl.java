@@ -1,6 +1,5 @@
 package com.ldg.app.contentcenter.service.impl;
 
-
 import com.ldg.app.dto.ShareAuditDto;
 import com.ldg.app.dto.ShareDto;
 import com.ldg.app.dto.UserAddBonusMsgDto;
@@ -20,17 +19,21 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.NullArgumentException;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
+import org.apache.rocketmq.spring.support.RocketMQHeaders;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * @author ldg
@@ -47,6 +50,7 @@ public class ShareServiceImpl implements ShareService {
 
     @Override
     public Share queryById(Integer id) {
+
         return shareMapper.selectById(id);
     }
 
@@ -94,27 +98,12 @@ public class ShareServiceImpl implements ShareService {
         throw new NullArgumentException("user");
     }
 
-
     @Override
-    public List<Share> queryAllByLimit(int offset, int limit) {
-        return null;
+    public Integer insert(Share share) {
+        return shareMapper.insert(share);
     }
 
-    @Override
-    public Share insert(Share share) {
-        return null;
-    }
-
-    @Override
-    public Share update(Share share) {
-        return null;
-    }
-
-    @Override
-    public boolean deleteById(Integer id) {
-        return false;
-    }
-
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Share auditById(Integer id, ShareAuditDto auditDto) {
         //1.查询share是否存在,不存在或者当前的audit_status!=NotYet,那么抛异常
@@ -124,22 +113,46 @@ public class ShareServiceImpl implements ShareService {
         if (Objects.isNull(share)) {
             throw new IllegalArgumentException("参数非法");
         }
-
         //枚举类型要使用toString()
         if (!ObjectUtils.equals(share.getAuditStatus(), AuditStatusEnum.NotYet.toString())) {
             throw new IllegalArgumentException("资源已审核");
         }
-        share.setAuditStatus(auditDto.getAuditStatusEnum().toString());
-        shareMapper.updateById(share);
+        //更新share
+        share = auditInDBById(id, auditDto);
         //如果为Pass,异步执行增加积分
         if (ObjectUtils.equals(share.getAuditStatus(), AuditStatusEnum.Pass.toString())) {
-            log.info("Status:{}", share.getAuditStatus());
-            rocketMQTemplate.convertAndSend("add-bonus", UserAddBonusMsgDto.builder()
-                    .userId(share.getUserId())
-                    .bonus(50)
-                    .build());
+            String transactionId = UUID.randomUUID().toString();
+            //发送半消息
+            rocketMQTemplate.sendMessageInTransaction(
+                    "add_bonus",
+                    MessageBuilder.withPayload(
+                            UserAddBonusMsgDto.builder()
+                                    .userId(share.getUserId())
+                                    .bonus(50)
+                                    .build())
+                            //有妙用
+                            .setHeader(RocketMQHeaders.TRANSACTION_ID, transactionId)
+                            .build(),
+                    null);
         }
         return share;
+    }
 
+    /**
+     * 将审核信息存入数据库
+     *
+     * @param id
+     * @param auditDto
+     * @return
+     */
+    public Share auditInDBById(Integer id, ShareAuditDto auditDto) {
+        Share share = Share.builder()
+                .id(id)
+                .auditStatus(auditDto.getAuditStatusEnum().toString())
+                .reason(auditDto.getReason())
+                .build();
+        shareMapper.updateById(share);
+        //可以进行一些其他操作
+        return shareMapper.selectById(id);
     }
 }

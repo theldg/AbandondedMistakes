@@ -12,22 +12,14 @@ import java.util.List;
  */
 public interface RocketmqTransactionLogService {
 
-    /**
-     * 通过ID查询单条数据
-     *
-     * @param id 主键
-     * @return 实例对象
-     */
-    RocketmqTransactionLog queryById(Integer id);
 
     /**
-     * 查询多条数据
+     * 查询是否存在和transactionLog相同的数据
      *
-     * @param offset 查询起始位置
-     * @param limit 查询条数
-     * @return 对象列表
+     * @param transactionLog
+     * @return
      */
-    List<RocketmqTransactionLog> queryAllByLimit(int offset, int limit);
+    RocketmqTransactionLog selectOne(RocketmqTransactionLog transactionLog);
 
     /**
      * 新增数据
@@ -35,22 +27,7 @@ public interface RocketmqTransactionLogService {
      * @param rocketmqTransactionLog 实例对象
      * @return 实例对象
      */
-    RocketmqTransactionLog insert(RocketmqTransactionLog rocketmqTransactionLog);
+    Integer insert(RocketmqTransactionLog rocketmqTransactionLog);
 
-    /**
-     * 修改数据
-     *
-     * @param rocketmqTransactionLog 实例对象
-     * @return 实例对象
-     */
-    RocketmqTransactionLog update(RocketmqTransactionLog rocketmqTransactionLog);
-
-    /**
-     * 通过主键删除数据
-     *
-     * @param id 主键
-     * @return 是否成功
-     */
-    boolean deleteById(Integer id);
 
 }

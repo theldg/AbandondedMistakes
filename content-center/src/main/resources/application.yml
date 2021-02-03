@@ -6,8 +6,12 @@ spring:
   application:
     name: content-center
 ---
+#mybatis-plus配置自增策略
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: AUTO
 spring:
-
   profiles: dev
   datasource:
     #>=6.x com.mysql.cj.jdbc.Driver
@@ -39,6 +43,14 @@ spring:
         dashboard: localhost:8080
       #关闭懒加载
       eager: true
+    #配置spring-cloud-stream
+#    stream:
+#      rocketmq:
+#        binder:
+#          name-server: localhost:9876
+#      bindings:
+#        output:
+#          destination: stream-test-topic
 #为user-center配置ribbon负载均衡规则
 #user-center:
 #   ribbon:

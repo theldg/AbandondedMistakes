@@ -16,7 +16,7 @@ import java.util.List;
 public interface ShareService {
 
     /**
-     * 通过ID查询单条数据
+     * 通过ID查询share
      *
      * @param id 主键
      * @return 实例对象
@@ -25,50 +25,26 @@ public interface ShareService {
 
     /**
      * 通过ID查询sharedto
-     *
      * @param id 主键
      * @return
      */
     ShareDto queryDtoById(Integer id);
 
-    /**
-     * 查询多条数据
-     *
-     * @param offset 查询起始位置
-     * @param limit  查询条数
-     * @return 对象列表
-     */
-    List<Share> queryAllByLimit(int offset, int limit);
 
     /**
-     * 新增数据
+     * 插入share
      *
-     * @param share 实例对象
-     * @return 实例对象
+     * @param share
+     * @return
      */
-    Share insert(Share share);
+    Integer insert(Share share);
+
 
     /**
-     * 修改数据
+     * 审核share
      *
-     * @param share 实例对象
-     * @return 实例对象
-     */
-    Share update(Share share);
-
-    /**
-     * 通过主键删除数据
-     *
-     * @param id 主键
-     * @return 是否成功
-     */
-    boolean deleteById(Integer id);
-
-    /**
-     * 审核资源
-     *
-     * @param id       主键
-     * @param auditDto 审核信息
+     * @param id
+     * @param auditDto
      * @return
      */
     Share auditById(Integer id, ShareAuditDto auditDto);

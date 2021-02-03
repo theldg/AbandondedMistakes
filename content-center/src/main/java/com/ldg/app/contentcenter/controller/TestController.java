@@ -9,7 +9,6 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -24,7 +23,6 @@ public class TestController {
 
 
     private final DiscoveryClient discoveryClient;
-    private final RestTemplate restTemplate;
 
     @GetMapping("nacos")
     public List<ServiceInstance> getInstance() {
