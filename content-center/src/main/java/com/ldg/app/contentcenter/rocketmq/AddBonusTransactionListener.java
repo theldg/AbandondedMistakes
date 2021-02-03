@@ -22,7 +22,7 @@ import java.util.Objects;
  */
 @Slf4j
 @Service
-@RocketMQTransactionListener
+@RocketMQTransactionListener(txProducerGroup = "tx_add_bonus")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AddBonusTransactionListener implements RocketMQLocalTransactionListener {
     private final RocketmqTransactionLogService transactionLogService;
@@ -34,11 +34,10 @@ public class AddBonusTransactionListener implements RocketMQLocalTransactionList
         String transactionId = (String) headers.get(RocketMQHeaders.TRANSACTION_ID);
         try {
             //记录日志
-            Integer flag = transactionLogService.insert(RocketmqTransactionLog.builder()
+            transactionLogService.insert(RocketmqTransactionLog.builder()
                     .transactionId(transactionId)
                     .log("投稿积分添加")
                     .build());
-            log.info("flag:{}", flag);
             return RocketMQLocalTransactionState.COMMIT;
         } catch (Exception e) {
             return RocketMQLocalTransactionState.ROLLBACK;

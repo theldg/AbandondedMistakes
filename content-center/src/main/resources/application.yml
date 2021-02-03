@@ -44,13 +44,19 @@ spring:
       #关闭懒加载
       eager: true
     #配置spring-cloud-stream
-#    stream:
-#      rocketmq:
-#        binder:
-#          name-server: localhost:9876
-#      bindings:
-#        output:
-#          destination: stream-test-topic
+    stream:
+      rocketmq:
+        binder:
+          name-server: localhost:9876
+        bindings:
+          output:
+            producer:
+              transactional: true
+              group: tx_add_bonus
+
+      bindings:
+        output:
+          destination: add_bonus
 #为user-center配置ribbon负载均衡规则
 #user-center:
 #   ribbon:
@@ -87,11 +93,11 @@ management:
       exposure:
         include: '*'
 #整合rocketmq
-rocketmq:
-  name-server: localhost:9876
-  producer:
-    #小坑 必须指定group
-    group: test-group
+#rocketmq:
+#  name-server: localhost:9876
+#  producer:
+#    #小坑 必须指定group
+#    group: test-group
 
 ---
 spring:

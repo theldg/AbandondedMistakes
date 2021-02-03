@@ -24,6 +24,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
@@ -45,7 +46,7 @@ public class ShareServiceImpl implements ShareService {
 
     private final ShareMapper shareMapper;
     private final UserCenterFeignClient feignClient;
-    private final RocketMQTemplate rocketMQTemplate;
+    private final Source source;
 
 
     @Override
@@ -123,17 +124,27 @@ public class ShareServiceImpl implements ShareService {
         if (ObjectUtils.equals(share.getAuditStatus(), AuditStatusEnum.Pass.toString())) {
             String transactionId = UUID.randomUUID().toString();
             //发送半消息
-            rocketMQTemplate.sendMessageInTransaction(
-                    "add_bonus",
+            //使用原生RocketMq
+//            rocketMQTemplate.sendMessageInTransaction(
+//                    "add_bonus",
+//                    MessageBuilder.withPayload(
+//                            UserAddBonusMsgDto.builder()
+//                                    .userId(share.getUserId())
+//                                    .bonus(50)
+//                                    .build())
+//                            //有妙用
+//                            .setHeader(RocketMQHeaders.TRANSACTION_ID, transactionId)
+//                            .build(),
+//                    null);
+            //使用SpringCloudStream
+            source.output().send(
                     MessageBuilder.withPayload(
                             UserAddBonusMsgDto.builder()
                                     .userId(share.getUserId())
                                     .bonus(50)
                                     .build())
-                            //有妙用
                             .setHeader(RocketMQHeaders.TRANSACTION_ID, transactionId)
-                            .build(),
-                    null);
+                            .build());
         }
         return share;
     }
