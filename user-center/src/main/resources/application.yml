@@ -4,8 +4,13 @@ spring:
   profiles:
     active: dev
 ---
+#mybatis-plus配置自增策略
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: AUTO
 server:
-  port: 8082
+  port: 8081
 spring:
   profiles: dev
   datasource:
@@ -22,9 +27,10 @@ spring:
         server-addr: localhost:8848
         namespace: 5d1d5b0f-d00a-43f4-8706-901c97ee698f
         #集群划分
-        cluster-name: BJ
-
-
+        cluster-name: NJ
+#rocketmq
+rocketmq:
+  name-server: localhost:9876
 
 ---
 spring:
