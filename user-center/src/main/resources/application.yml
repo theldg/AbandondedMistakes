@@ -28,10 +28,20 @@ spring:
         namespace: 5d1d5b0f-d00a-43f4-8706-901c97ee698f
         #集群划分
         cluster-name: NJ
-#rocketmq
-rocketmq:
-  name-server: localhost:9876
-
+    stream:
+      rocketmq:
+        binder:
+          name-server: localhost:9876
+      bindings:
+        input:
+          destination: add_bonus
+          group: add_bonus_group
+  #rocketmq
+#rocketmq:
+#  name-server: localhost:9876
+logging:
+  level:
+    com.alibaba.nacos: error
 ---
 spring:
   profiles: prod

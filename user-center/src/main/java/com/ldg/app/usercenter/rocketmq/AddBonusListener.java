@@ -7,9 +7,9 @@ import com.ldg.app.usercenter.mapper.BonusMapper;
 import com.ldg.app.usercenter.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
-import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.annotation.StreamListener;
+import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -22,13 +22,12 @@ import java.util.Objects;
  */
 @Slf4j
 @Service
-@RocketMQMessageListener(consumerGroup = "consumer", topic = "add_bonus")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class AddBonusListener implements RocketMQListener<UserAddBonusMsgDto> {
+public class AddBonusListener {
     private final UserMapper userMapper;
     private final BonusMapper bonusMapper;
 
-    @Override
+    @StreamListener(Sink.INPUT)
     public void onMessage(UserAddBonusMsgDto userAddBonusMsgDto) {
         //1.为用户加积分
         Integer userId = userAddBonusMsgDto.getUserId();
