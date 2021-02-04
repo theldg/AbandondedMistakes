@@ -1,5 +1,5 @@
 server:
-  port: 9091
+  port: 8090
 spring:
   profiles:
     active: dev
@@ -69,6 +69,7 @@ logging:
   level:
     #Feign的日志打印是要建立在FeignClient接口的日志级别为debug基础上
     com.ldg.app.contentcenter.feignclient.UserCenterFeignClient: debug
+    com.alibaba.nacos: error
 #feign:
 #  client:
 #    config:
