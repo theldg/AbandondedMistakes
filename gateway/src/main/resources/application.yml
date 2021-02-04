@@ -1,0 +1,33 @@
+server:
+  port: 9000
+spring:
+  application:
+    name: gateway
+  profiles:
+    active: dev
+---
+spring:
+  profiles: dev
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        namespace: 5d1d5b0f-d00a-43f4-8706-901c97ee698f
+    gateway:
+      discovery:
+        locator:
+          #让gateway发现其他微服务组件
+          enabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        #暴露所有端点
+        include: '*'
+  endpoint:
+    health:
+      #展示健康详情
+      show-details: always
+---
+spring:
+  profiles: prod
