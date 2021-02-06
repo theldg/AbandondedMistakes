@@ -1,14 +1,13 @@
 package com.ldg.app.contentcenter.controller.aop;
 
 
-import com.alibaba.csp.sentinel.slots.block.authority.AuthorityException;
-import com.alibaba.csp.sentinel.slots.block.degrade.DegradeException;
-import com.alibaba.csp.sentinel.slots.block.flow.FlowException;
-import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowException;
-import com.alibaba.csp.sentinel.slots.system.SystemBlockException;
-import com.ldg.app.enums.ExceptionCode;
+import com.alibaba.csp.sentinel.slots.block.BlockException;
+import com.ldg.app.enums.ReslutCode;
+import com.ldg.app.exception.UnauthorizedException;
 import com.ldg.app.response.ReslutDto;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -22,51 +21,38 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ControllerExceptionAdvice {
 
     /**
-     * 热点参数异常处理器
+     * Sentinel异常处理器
      */
-    @ExceptionHandler(ParamFlowException.class)
-    public ReslutDto paramFlowExceptionHandler(ParamFlowException e) {
-        return ReslutDto.builder().msg(ExceptionCode.ParamFlowException.getMsg()).code(ExceptionCode.ParamFlowException.getCode()).data(e.getRuleLimitApp()).build();
+    @ExceptionHandler(BlockException.class)
+    public ResponseEntity<ReslutDto> paramFlowExceptionHandler(BlockException e) {
+        return new ResponseEntity<>(
+                ReslutDto.builder()
+                        .msg(e.getMessage())
+                        .code(ReslutCode.Forbidden.getCode())
+                        .data(ReslutCode.Forbidden.getMsg())
+                        .build()
+                , HttpStatus.FORBIDDEN
+        );
     }
 
     /**
-     * 系统规则异常处理器
+     * 处理认证异常
+     *
+     * @param e
+     * @return
      */
-    @ExceptionHandler(SystemBlockException.class)
-    public ReslutDto systemBlockExceptionHandler(SystemBlockException e) {
-        return ReslutDto.builder().msg(ExceptionCode.SystemBlockException.getMsg()).code(ExceptionCode.SystemBlockException.getCode()).data(e.getRuleLimitApp()).build();
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ReslutDto> unauthorizedExceptionHandler(UnauthorizedException e) {
+        return new ResponseEntity<>(
+                ReslutDto.builder()
+                        .msg(e.getMessage())
+                        .code(ReslutCode.Unauthorized.getCode())
+                        .data(ReslutCode.Unauthorized.getMsg())
+                        .build()
+                , HttpStatus.UNAUTHORIZED
+        );
     }
 
-    /**
-     * 降级异常处理器
-     */
-    @ExceptionHandler(DegradeException.class)
-    public ReslutDto degradeExceptionHandler(DegradeException e) {
-        return ReslutDto.builder().msg(ExceptionCode.DegradeException.getMsg()).code(ExceptionCode.DegradeException.getCode()).data(e.getRuleLimitApp()).build();
-    }
 
-    /**
-     * 授权异常处理器
-     */
-    @ExceptionHandler(AuthorityException.class)
-    public ReslutDto authorityExceptionHandler(AuthorityException e) {
-        return ReslutDto.builder().msg(ExceptionCode.AuthorityException.getMsg()).code(ExceptionCode.AuthorityException.getCode()).data(e.getRuleLimitApp()).build();
-    }
-
-    /**
-     * 流控异常处理器
-     */
-    @ExceptionHandler(FlowException.class)
-    public ReslutDto flowExceptionHandler(FlowException e) {
-        return ReslutDto.builder().msg(ExceptionCode.FlowException.getMsg()).code(ExceptionCode.FlowException.getCode()).data(e.getRuleLimitApp()).build();
-    }
-
-    /**
-     * 默认异常处理器
-     */
-    @ExceptionHandler(Exception.class)
-    public ReslutDto exceptionHandler(Exception e) {
-        return ReslutDto.builder().msg(ExceptionCode.SystemException.getMsg()).code(ExceptionCode.SystemException.getCode()).data(e.getMessage()).build();
-    }
 
 }

@@ -5,8 +5,6 @@ import com.ldg.app.dto.ShareAuditDto;
 import com.ldg.app.dto.ShareDto;
 import com.ldg.app.entity.Share;
 
-import java.util.List;
-
 /**
  * 分享表(Share)表服务接口
  *
@@ -25,10 +23,12 @@ public interface ShareService {
 
     /**
      * 通过ID查询sharedto
-     * @param id 主键
+     *
+     * @param id    主键
+     * @param token header中的token
      * @return
      */
-    ShareDto queryDtoById(Integer id);
+    ShareDto queryDtoById(Integer id, String token);
 
 
     /**

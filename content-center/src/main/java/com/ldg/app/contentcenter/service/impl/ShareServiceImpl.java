@@ -8,31 +8,23 @@ import com.ldg.app.entity.User;
 import com.ldg.app.contentcenter.feignclient.UserCenterFeignClient;
 import com.ldg.app.contentcenter.mapper.ShareMapper;
 import com.ldg.app.contentcenter.service.ShareService;
-import com.ldg.app.entity.Share;
 import com.ldg.app.enums.AuditStatusEnum;
 import com.ldg.app.enums.ReslutCode;
 import com.ldg.app.json.JsonAndEntity;
 import com.ldg.app.response.ReslutDto;
-import io.netty.util.internal.ObjectUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.NullArgumentException;
 import org.apache.commons.lang.ObjectUtils;
-import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.apache.rocketmq.spring.support.RocketMQHeaders;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.stream.messaging.Source;
-import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
 
 
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -57,7 +49,7 @@ public class ShareServiceImpl implements ShareService {
 
 
     @Override
-    public ShareDto queryDtoById(Integer id) {
+    public ShareDto queryDtoById(Integer id, String token) {
         Share share = shareMapper.selectById(id);
         if (Objects.isNull(share)) {
             throw new NullArgumentException("share");
@@ -86,7 +78,7 @@ public class ShareServiceImpl implements ShareService {
 //        //消息的装配
 //        ReslutDto reslutDto = forEntity.getBody();
         //使用Feign
-        ReslutDto reslutDto = feignClient.findById(userId);
+        ReslutDto reslutDto = feignClient.findById(userId, token);
         //判断响应是否成功
         if (ObjectUtils.equals(reslutDto.getCode(), ReslutCode.Ok.getCode())) {
             //将Map对象转化实体对象User
