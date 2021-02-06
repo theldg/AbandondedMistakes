@@ -16,7 +16,7 @@ public enum ReslutCode {
     /**
      * 请求没有被认证
      */
-    Unauthorized(401, "没有认证"),
+    Unauthorized(401, "认证失败"),
     /**
      * 请求被禁止
      */
@@ -28,9 +28,8 @@ public enum ReslutCode {
     /**
      * 服务器出现异常
      */
-    ServerException(500, "服务器出现异常");
+    ServerException(500, "服务器异常");
     private Integer code;
     private String msg;
-
 
 }
