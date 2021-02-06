@@ -1,7 +1,10 @@
 package com.ldg.app.usercenter.controller.aop;
 
-import com.ldg.app.enums.ExceptionCode;
+import com.ldg.app.enums.ReslutCode;
+import com.ldg.app.exception.UnauthorizedException;
 import com.ldg.app.response.ReslutDto;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -11,10 +14,22 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  */
 @RestControllerAdvice
 public class ControllerExceptionAdvice {
-
-    @ExceptionHandler(Exception.class)
-    public ReslutDto exceptionHandler(Exception e) {
-        return ReslutDto.builder().msg(ExceptionCode.SystemException.getMsg()).code(ExceptionCode.SystemException.getCode()).data(e.getMessage()).build();
+    /**
+     * 处理认证异常
+     *
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ReslutDto> unauthorizedExceptionHandler(UnauthorizedException e) {
+        return new ResponseEntity<>(
+                ReslutDto.builder()
+                        .msg(e.getMessage())
+                        .code(ReslutCode.Unauthorized.getCode())
+                        .data(ReslutCode.Unauthorized.getMsg())
+                        .build()
+                , HttpStatus.UNAUTHORIZED
+        );
     }
 
 }

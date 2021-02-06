@@ -1,5 +1,6 @@
 package com.ldg.app.usercenter.service;
 
+import com.ldg.app.dto.UserLoginDto;
 import com.ldg.app.entity.User;
 
 import java.util.List;
@@ -53,4 +54,12 @@ public interface UserService {
      */
     boolean deleteById(Integer id);
 
+    /**
+     * 判读用户是已经否注册
+     *
+     * @param loginDto
+     * @param openId
+     * @return
+     */
+    User login(UserLoginDto loginDto, String openId);
 }

@@ -10,7 +10,7 @@ mybatis-plus:
     db-config:
       id-type: AUTO
 server:
-  port: 8081
+  port: 8082
 spring:
   profiles: dev
   datasource:
@@ -42,6 +42,16 @@ spring:
 logging:
   level:
     com.alibaba.nacos: error
+
+#jwt配置
+jwt:
+  secret: aaabbbcccdddeeefffggghhhiiijjjkkklllmmmnnnooopppqqqrrrsssttt
+  expire-time-in-second: 1209600
+  signatureAlgorithm: HS256
+#微信配置
+wx:
+  appId: wx03922d8f0a87ef5a
+  secret: 1ead52e8cdaa68fa792d75100d4ff85d
 ---
 spring:
   profiles: prod

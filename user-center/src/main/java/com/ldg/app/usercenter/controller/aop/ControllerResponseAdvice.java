@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ldg.app.enums.ReslutCode;
 import com.ldg.app.response.ReslutDto;
 import org.springframework.core.MethodParameter;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
@@ -20,8 +22,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 public class ControllerResponseAdvice implements ResponseBodyAdvice<Object> {
     @Override
     public boolean supports(MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> aClass) {
-        //response是ReslutDto类型或者注释了@NotControllerRes
-        return !methodParameter.getParameterType().isAssignableFrom(ReslutDto.class);
+        //response是ResponseEntity类型或者注释了@NotControllerRes
+        return !methodParameter.getParameterType().isAssignableFrom(ResponseEntity.class);
     }
 
     @Override
@@ -31,12 +33,15 @@ public class ControllerResponseAdvice implements ResponseBodyAdvice<Object> {
             ObjectMapper objectMapper = new ObjectMapper();
             // 将数据包装在ResultVo里后转换为json串进行返回
             try {
-                return objectMapper.writeValueAsString(ReslutDto.builder().data(data).code(ReslutCode.Ok.getCode()).msg(ReslutCode.Ok.getMsg()).build());
+                return objectMapper.writeValueAsString(new ResponseEntity<>(
+                        ReslutDto.builder().data(data).code(ReslutCode.Ok.getCode()).msg(ReslutCode.Ok.getMsg()).build()
+                        , HttpStatus.OK));
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
         }
-        return ReslutDto.builder().data(data).code(ReslutCode.Ok.getCode()).msg(ReslutCode.Ok.getMsg()).build();
-
+        return new ResponseEntity<>(
+                ReslutDto.builder().data(data).code(ReslutCode.Ok.getCode()).msg(ReslutCode.Ok.getMsg()).build()
+                , HttpStatus.OK);
     }
 }
