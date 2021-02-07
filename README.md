@@ -1,2 +1,3 @@
-# WX_Small_Program
+#废弃的资源用来警示自己要重视git的管理
+WX_Small_Program
 类博客微信小程序
